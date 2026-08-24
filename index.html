@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sage - Videos</title>
+
+  <style>
+    /* ================================
+       RESET
+    ================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f6f7f2;
+      color: #26332c;
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* ================================
+       CONTENEDOR PRINCIPAL
+    ================================= */
+    .container {
+      width: min(1200px, 92%);
+      margin: 0 auto;
+    }
+
+    /* ================================
+       HEADER
+    ================================= */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e7df;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 700;
+      color: #607d68;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #526158;
+      text-decoration: none;
+      font-size: 15px;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #75917d;
+    }
+
+    .nav-button {
+      background: #718b78;
+      color: white !important;
+      padding: 10px 18px;
+      border-radius: 9px;
+    }
+
+    .nav-button:hover {
+      background: #5f7867;
+    }
+
+    /* ================================
+       HERO
+    ================================= */
+    .hero {
+      padding: 70px 0 55px;
+    }
+
+    .hero-content {
+      max-width: 760px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e4ece3;
+      color: #607968;
+      padding: 7px 13px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+      color: #27352d;
+    }
+
+    .hero p {
+      color: #66736b;
+      font-size: 18px;
+      line-height: 1.7;
+      max-width: 650px;
+    }
+
+    /* ================================
+       SEARCH
+    ================================= */
+    .search-section {
+      margin-bottom: 40px;
+    }
+
+    .search-box {
+      position: relative;
+      max-width: 600px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 1px solid #dce3dc;
+      background: white;
+      border-radius: 12px;
+      padding: 15px 18px;
+      outline: none;
+      color: #344139;
+      box-shadow: 0 4px 15px rgba(50, 70, 55, 0.04);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-box input:focus {
+      border-color: #91a797;
+      box-shadow: 0 0 0 3px rgba(113, 139, 120, 0.12);
+    }
+
+    /* ================================
+       VIDEOS GRID
+    ================================= */
+    .videos-section {
+      padding-bottom: 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .section-header h2 {
+      font-size: 27px;
+      color: #304036;
+    }
+
+    .video-count {
+      color: #7a877f;
+      font-size: 14px;
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .video-card {
+      background: white;
+      border: 1px solid #e1e7e1;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 6px 22px rgba(40, 60, 45, 0.05);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(40, 60, 45, 0.1);
+    }
+
+    .thumbnail {
+      aspect-ratio: 16 / 9;
+      background: #dfe8df;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .play-button {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 54px;
+      height: 54px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.94);
+      color: #607b67;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
+      transition: transform 0.2s ease;
+    }
+
+    .play-button:hover {
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .video-info {
+      padding: 20px;
+    }
+
+    .video-category {
+      color: #79917e;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 8px;
+    }
+
+    .video-title {
+      font-size: 19px;
+      line-height: 1.35;
+      margin-bottom: 9px;
+      color: #2f3c34;
+    }
+
+    .video-description {
+      color: #758079;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .watch-button {
+      border: none;
+      background: #edf2ec;
+      color: #607767;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .watch-button:hover {
+      background: #dfe9df;
+    }
+
+    /* ================================
+       MODAL
+    ================================= */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(29, 39, 33, 0.72);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      width: min(900px, 100%);
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #18201b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .modal-info {
+      padding: 25px;
+    }
+
+    .modal-info h2 {
+      margin-bottom: 8px;
+      color: #304036;
+    }
+
+    .modal-info p {
+      color: #6f7972;
+      line-height: 1.6;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      color: #3f4d44;
+      font-size: 20px;
+      z-index: 2;
+    }
+
+    /* ================================
+       FOOTER
+    ================================= */
+    footer {
+      background: #e9eee8;
+      padding: 30px 0;
+      color: #68756d;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* ================================
+       RESPONSIVE
+    ================================= */
+    @media (max-width: 900px) {
+      .videos-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .navbar {
+        min-height: 65px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 45px 0;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .videos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .modal {
+        padding: 12px;
+      }
+
+      .modal-info {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================================
+       HEADER
+  ================================= -->
+  <header>
+    <div class="container navbar">
+
+      <a href="#" class="logo">
+        Sage
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li>
+            <a href="#inicio">Inicio</a>
+          </li>
+
+          <li>
+            <a href="#videos">Videos</a>
+          </li>
+
+          <li>
+            <a href="#informacion">Información</a>
+          </li>
+
+          <li>
+            <a href="#videos" class="nav-button">
+              Explorar
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+
+  <!-- ================================
+       HERO
+  ================================= -->
+  <main>
+
+    <section class="hero" id="inicio">
+      <div class="container">
+
+        <div class="hero-content">
+
+          <span class="tag">
+            Biblioteca de videos
+          </span>
+
+          <h1>
+            Aprende a tu ritmo.
+          </h1>
+
+          <p>
+            Explora nuestra colección de videos y encuentra
+            contenido pensado para acompañarte, aprender y
+            descubrir nuevas ideas.
+          </p>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================================
+         SEARCH
+    ================================= -->
+    <section class="search-section">
+      <div class="container">
+
+        <div class="search-box">
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Buscar un video..."
+            autocomplete="off"
+          >
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================================
+         VIDEOS
+    ================================= -->
+    <section class="videos-section" id="videos">
+
+      <div class="container">
+
+        <div class="section-header">
+
+          <h2>
+            Videos disponibles
+          </h2>
+
+          <span class="video-count" id="videoCount">
+            6 videos
+          </span>
+
+        </div>
+
+
+        <div class="videos-grid" id="videosGrid">
+
+          <!-- VIDEO 1 -->
+          <article
+            class="video-card"
+            data-title="Introducción a Sage"
+            data-category="Introducción"
+          >
+
+            <div class="thumbnail">
+
+              <img
+                src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=900&q=80"
+                alt="Introducción a Sage"
+              >
+
+              <button
+                class="play-button"
+                onclick="openVideo(
+                  'Introducción a Sage',
+                  'Conoce los conceptos básicos y descubre cómo comenzar.'
+                )"
+                aria-label="Reproducir video"
+              >
+                ▶
+              </button>
+
+            </div>
+
+            <div class="video-info">
+
+              <div class="video-category">
+                Introducción
+              </div>
+
+              <h3 class="video-title">
+                Introducción a Sage
+              </h3>
+
+              <p class="video-description">
+                Conoce los conceptos básicos y descubre cómo comenzar.
+              </p>
+
+              <button
+                class="watch-button"
+                onclick="openVideo(
+                  'Introducción a Sage',
+                  'Conoce los conceptos básicos y descubre cómo comenzar.'
+                )"
+              >
+                Ver video →
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- VIDEO 2 -->
+          <article
+            class="video-card"
+            data-title="Primeros pasos"
+            data-category="Tutorial"
+          >
+
+            <div class="thumbnail">
+
+              <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
+                alt="Primeros pasos"
+              >
+
+              <button
+                class="play-button"
+                onclick="openVideo(
+                  'Primeros pasos',
+                  'Aprende los primeros pasos para utilizar la plataforma.'
+                )"
+                aria-label="Reproducir video"
+              >
+                ▶
+              </button>
+
+            </div>
+
+            <div class="video-info">
+
+              <div class="video-category">
+                Tutorial
+              </div>
+
+              <h3 class="video-title">
+                Primeros pasos
+              </h3>
+
+              <p class="video-description">
+                Aprende los primeros pasos para utilizar la plataforma.
+              </p>
+
+              <button
+                class="watch-button"
+                onclick="openVideo(
+                  'Primeros pasos',
+                  'Aprende los primeros pasos para utilizar la plataforma.'
+                )"
+              >
+                Ver video →
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- VIDEO 3 -->
+          <article
+            class="video-card"
+            data-title="Herramientas esenciales"
+            data-category="Guía"
+          >
+
+            <div class="thumbnail">
+
+              <img
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80"
+                alt="Herramientas esenciales"
+              >
+
+              <button
+                class="play-button"
+                onclick="openVideo(
+                  'Herramientas esenciales',
+                  'Una guía rápida de las herramientas más importantes.'
+                )"
+                aria-label="Reproducir video"
+              >
+                ▶
+              </button>
+
+            </div>
+
+            <div class="video-info">
+
+              <div class="video-category">
+                Guía
+              </div>
+
+              <h3 class="video-title">
+                Herramientas esenciales
+              </h3>
+
+              <p class="video-description">
+                Una guía rápida de las herramientas más importantes.
+              </p>
+
+              <button
+                class="watch-button"
+                onclick="openVideo(
+                  'Herramientas esenciales',
+                  'Una guía rápida de las herramientas más importantes.'
+                )"
+              >
+                Ver video →
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- VIDEO 4 -->
+          <article
+            class="video-card"
+            data-title="Consejos para aprender"
+            data-category="Consejos"
+          >
+
+            <div class="thumbnail">
+
+              <img
+                src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=900&q=80"
+                alt="Consejos para aprender"
+              >
+
+              <button
+                class="play-button"
+                onclick="openVideo(
+                  'Consejos para aprender',
+                  'Algunas recomendaciones para aprovechar mejor tus sesiones.'
+                )"
+                aria-label="Reproducir video"
+              >
+                ▶
+              </button>
+
+            </div>
+
+            <div class="video-info">
+
+              <div class="video-category">
+                Consejos
+              </div>
+
+              <h3 class="video-title">
+                Consejos para aprender
+              </h3>
+
+              <p class="video-description">
+                Algunas recomendaciones para aprovechar mejor tus sesiones.
+              </p>
+
+              <button
+                class="watch-button"
+                onclick="openVideo(
+                  'Consejos para aprender',
+                  'Algunas recomendaciones para aprovechar mejor tus sesiones.'
+                )"
+              >
+                Ver video →
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- VIDEO 5 -->
+          <article
+            class="video-card"
+            data-title="Organización y estudio"
+            data-category="Productividad"
+          >
+
+            <div class="thumbnail">
+
+              <img
+                src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=900&q=80"
+                alt="Organización y estudio"
+              >
+
+              <button
+                class="play-button"
+                onclick="openVideo(
+                  'Organización y estudio',
+                  'Aprende algunas estrategias para organizar mejor tu tiempo.'
+                )"
+                aria-label="Reproducir video"
+              >
+                ▶
+              </button>
+
+            </div>
+
+            <div class="video-info">
+
+              <div class="video-category">
+                Productividad
+              </div>
+
+              <h3 class="video-title">
+                Organización y estudio
+              </h3>
+
+              <p class="video-description">
+                Aprende algunas estrategias para organizar mejor tu tiempo.
+              </p>
+
+              <button
+                class="watch-button"
+                onclick="openVideo(
+                  'Organización y estudio',
+                  'Aprende algunas estrategias para organizar mejor tu tiempo.'
+                )"
+              >
+                Ver video →
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- VIDEO 6 -->
+          <article
+            class="video-card"
+            data-title="Recursos recomendados"
+            data-category="Recursos"
+          >
+
+            <div class="thumbnail">
+
+              <img
+                src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=900&q=80"
+                alt="Recursos recomendados"
+              >
+
+              <button
+                class="play-button"
+                onclick="openVideo(
+                  'Recursos recomendados',
+                  'Descubre recursos adicionales para continuar aprendiendo.'
+                )"
+                aria-label="Reproducir video"
+              >
+                ▶
+              </button>
+
+            </div>
+
+            <div class="video-info">
+
+              <div class="video-category">
+                Recursos
+              </div>
+
+              <h3 class="video-title">
+                Recursos recomendados
+              </h3>
+
+              <p class="video-description">
+                Descubre recursos adicionales para continuar aprendiendo.
+              </p>
+
+              <button
+                class="watch-button"
+                onclick="openVideo(
+                  'Recursos recomendados',
+                  'Descubre recursos adicionales para continuar aprendiendo.'
+                )"
+              >
+                Ver video →
+              </button>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================================
+       MODAL
+  ================================= -->
+  <div
+    class="modal"
+    id="videoModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+
+    <div class="modal-content">
+
+      <button
+        class="close-modal"
+        onclick="closeVideo()"
+        aria-label="Cerrar"
+      >
+        ×
+      </button>
+
+      <div class="modal-video">
+        <span>
+          ▶ Aquí aparecerá tu video
+        </span>
+      </div>
+
+      <div class="modal-info">
+
+        <h2 id="modalTitle">
+          Video
+        </h2>
+
+        <p id="modalDescription">
+          Descripción del video.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================
+       FOOTER
+  ================================= -->
+  <footer id="informacion">
+
+    <div class="container">
+      <p>
+        © 2026 Sage. Todos los derechos reservados.
+      </p>
+    </div>
+
+  </footer>
+
+
+  <!-- ================================
+       JAVASCRIPT
+  ================================= -->
+  <script>
+
+    /*
+     * BUSCADOR
+     */
+    const searchInput = document.getElementById("searchInput");
+    const videoCards = document.querySelectorAll(".video-card");
+    const videoCount = document.getElementById("videoCount");
+
+    searchInput.addEventListener("input", function () {
+
+      const searchTerm = this.value
+        .toLowerCase()
+        .trim();
+
+      let visibleVideos = 0;
+
+      videoCards.forEach(function (card) {
+
+        const title = card.dataset.title.toLowerCase();
+        const category = card.dataset.category.toLowerCase();
+
+        const matches =
+          title.includes(searchTerm) ||
+          category.includes(searchTerm);
+
+        if (matches) {
+          card.style.display = "";
+          visibleVideos++;
+        } else {
+          card.style.display = "none";
+        }
+
+      });
+
+      videoCount.textContent =
+        visibleVideos +
+        (visibleVideos === 1 ? " video" : " videos");
+
+    });
+
+
+    /*
+     * MODAL DE VIDEO
+     */
+    const modal = document.getElementById("videoModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDescription =
+      document.getElementById("modalDescription");
+
+
+    function openVideo(title, description) {
+
+      modalTitle.textContent = title;
+      modalDescription.textContent = description;
+
+      modal.classList.add("active");
+
+      document.body.style.overflow = "hidden";
+    }
+
+
+    function closeVideo() {
+
+      modal.classList.remove("active");
+
+      document.body.style.overflow = "";
+
+    }
+
+
+    /*
+     * CERRAR AL HACER CLICK FUERA
+     */
+    modal.addEventListener("click", function (event) {
+
+      if (event.target === modal) {
+        closeVideo();
+      }
+
+    });
+
+
+    /*
+     * CERRAR CON ESC
+     */
+    document.addEventListener("keydown", function (event) {
+
+      if (event.key === "Escape") {
+        closeVideo();
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
